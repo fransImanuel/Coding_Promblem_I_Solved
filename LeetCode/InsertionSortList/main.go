@@ -8,54 +8,61 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func insertionSortList(head *ListNode) *ListNode {
-	newNode := &ListNode{}
-	temp := head
+// func insertionSortList(head *ListNode) *ListNode {
+// 	count := 0
+// 	newNode := &ListNode{}
+// 	temp := head
+// 	for temp != nil {
+// 		newNode = PushNode(newNode, temp.Val, count)
+// 		count++
+// 		temp = temp.Next
+// 	}
 
-	for temp != nil {
+// 	return newNode
+// }
 
-		//if it's first time
-		if newNode.Val == 0 && newNode.Next == nil {
-			newNode.Val = temp.Val
-		} else {
-			//if it's not the first time
-			newNode = PushNode(newNode, newNode.Next, temp.Val)
-		}
-		// PrintAll(newNode)
-		temp = temp.Next
-	}
+// func PushNode(currNode *ListNode, newValue, count int) *ListNode {
+// 	newNode := &ListNode{Val: newValue, Next: nil}
+// 	if currNode.Next == nil && currNode.Val == 0 && count == 0 {
+// 		currNode = newNode
+// 		return currNode
+// 	}
 
-	return newNode
-}
+// 	//Determine head and tail
+// 	head := currNode
+// 	temp := head
+// 	var tail *ListNode
+// 	for temp != nil {
+// 		if temp.Next == nil {
+// 			tail = temp
+// 		}
+// 		temp = temp.Next
+// 	}
 
-func PushNode(currNode *ListNode, nextNode *ListNode, newValue int) *ListNode {
-	newNode := &ListNode{Val: newValue, Next: nil}
-	PrintAll(currNode)
-	if nextNode == nil && currNode.Val < newNode.Val {
-		currNode.Next = newNode
-		return currNode
-	}
+// 	if tail.Val < newNode.Val {
+// 		tail.Next = newNode
+// 		tail = newNode
+// 		return head
+// 	} else if head.Val >= newNode.Val {
+// 		newNode.Next = head
+// 		head = newNode
+// 		return head
+// 	} else {
+// 		temp := head
 
-	if currNode.Val >= newNode.Val {
-		newNode.Next = currNode
-		currNode = newNode
-	} else {
-		temp := currNode
+// 		for temp != tail {
+// 			if temp.Val <= newNode.Val && temp.Next.Val > newNode.Val {
+// 				newNode.Next = temp.Next
+// 				temp.Next = newNode
+// 				break
+// 			}
+// 			temp = temp.Next
+// 		}
+// 	}
 
-		for temp.Val < newNode.Val {
-			if temp.Next.Val >= newNode.Val {
-				newNode.Next = temp.Next
-				temp.Next = newNode
-				break
-			}
-			temp = temp.Next
-		}
+// 	return head
 
-	}
-
-	return currNode
-
-}
+// }
 
 func PrintAll(node *ListNode) {
 	fmt.Println()
@@ -66,22 +73,59 @@ func PrintAll(node *ListNode) {
 	}
 }
 
+func insertionSortList(head *ListNode) *ListNode {
+	dummy := new(ListNode)
+	fmt.Println(dummy)
+	for head != nil {
+		cur := dummy
+		for ; cur.Next != nil && cur.Next.Val < head.Val; cur = cur.Next {
+		}
+		// cur.Next, head.Next, head = head, cur.Next, head.Next
+
+		ta := head
+		tb := cur.Next
+		tc := head.Next
+
+		cur.Next = ta
+		head.Next = tb
+		head = tc
+
+	}
+	return dummy.Next
+}
+
 func main() {
-	// node := &ListNode{
-	// 	Val: 4,
-	// 	Next: &ListNode{
-	// 		Val: 2,
-	// 		Next: &ListNode{
-	// 			Val: 1,
-	// 			Next: &ListNode{
-	// 				Val:  3,
-	// 				Next: nil,
-	// 			},
-	// 		},
-	// 	},
-	// }
+	// a := 1
+	// b := 2
+
+	// fmt.Println(a, b)
+	// a, b = b, a
+	// fmt.Println(a, b)
+
+	// a, b = b, a
+	// c := 3
+
+	// fmt.Println(a, b, c)
+	// a, b, c = c, a, b
+	// fmt.Println(a, b, c)
 
 	node := &ListNode{
+		Val: 4,
+		Next: &ListNode{
+			Val: 2,
+			Next: &ListNode{
+				Val: 1,
+				Next: &ListNode{
+					Val:  3,
+					Next: nil,
+				},
+			},
+		},
+	}
+
+	PrintAll(insertionSortList(node))
+
+	node = &ListNode{
 		Val: -1,
 		Next: &ListNode{
 			Val: 5,
@@ -98,4 +142,21 @@ func main() {
 	}
 
 	PrintAll(insertionSortList(node))
+
+	node = &ListNode{
+		Val: 0,
+		Next: &ListNode{
+			Val: 0,
+			Next: &ListNode{
+				Val: 0,
+				Next: &ListNode{
+					Val:  0,
+					Next: nil,
+				},
+			},
+		},
+	}
+
+	PrintAll(insertionSortList(node))
+
 }

@@ -10,11 +10,11 @@ func singleNumber(nums []int) []int {
 	temp := make(map[int]int)
 	for _, v := range nums {
 		temp[v] = temp[v] + 1
-		fmt.Println(temp)
 	}
 
 	var result []int
 	for i, v := range temp {
+		// fmt.Printf("\ni = %d, v = %d", i, v)
 		if v == 1 {
 			result = append(result, i)
 		}

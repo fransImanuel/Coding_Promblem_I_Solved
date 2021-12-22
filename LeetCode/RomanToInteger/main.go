@@ -18,12 +18,27 @@ func romanToInt(s string) int {
 	}
 
 	var sum int
-	for i, str := range s {
-		if i > 0 && mapp[string(str)] > mapp[string(s[i-1])] {
-			sum = mapp[string(str)] - mapp[string(s[i-1])]
-		} else {
-			sum += mapp[string(str)]
+
+	for i := 0; i <= len(s); {
+		fmt.Println(string(s[i]))
+
+		//Just handling if i reached over s length
+		if i+1 >= len(s) {
+			sum += mapp[string(s[i])]
+			break
 		}
+
+		if mapp[string(s[i])] < mapp[string(s[i+1])] {
+			fmt.Println("ASD")
+			sum += (mapp[string(s[i+1])] - mapp[string(s[i])])
+			i += 2
+			continue
+		} else {
+			sum += mapp[string(s[i])]
+			i++
+			continue
+		}
+
 	}
 
 	return sum
